@@ -32,7 +32,7 @@ CREATE TABLE matriculas (
     id INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único da matrícula
     aluno_id INT NOT NULL, -- ID do aluno
     turma_id INT NOT NULL, -- ID da turma
-    nota_final DECIMAL(3,2), -- Nota final do aluno na turma
+    nota_final DECIMAL(2,2), -- Nota final do aluno na turma (0 a 10.00)
     FOREIGN KEY (aluno_id) REFERENCES usuarios(id), -- Chave estrangeira para usuários (alunos)
     FOREIGN KEY (turma_id) REFERENCES turmas(id) -- Chave estrangeira para turmas
 );
@@ -42,7 +42,7 @@ CREATE TABLE avaliacoes (
     id INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único da avaliação
     turma_id INT NOT NULL, -- ID da turma da avaliação
     nome VARCHAR(100) NOT NULL, -- Nome da avaliação
-    peso DECIMAL(3,2) DEFAULT 0.00, -- Peso da avaliação na nota final
+     peso INT CHECK (peso >= 0 AND peso <= 10) DEFAULT 0, -- Peso da avaliação (0 a 10)
     FOREIGN KEY (turma_id) REFERENCES turmas(id) -- Chave estrangeira para turmas
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE notas (
     id INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único da nota
     matricula_id INT NOT NULL, -- ID da matrícula
     avaliacao_id INT NOT NULL, -- ID da avaliação
-    nota_obtida DECIMAL(3,2), -- Nota obtida pelo aluno
+    nota_obtida DECIMAL(2,2) CHECK (nota_obtida >= 0 AND nota_obtida <= 10) -- Nota obtida pelo aluno (0 a 10.00)
     FOREIGN KEY (matricula_id) REFERENCES matriculas(id), -- Chave estrangeira para matrículas
     FOREIGN KEY (avaliacao_id) REFERENCES avaliacoes(id) -- Chave estrangeira para avaliações
 );
