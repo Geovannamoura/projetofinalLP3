@@ -1,153 +1,69 @@
-# projetofinalLP3
+# 🏫 Sistema Acadêmico
 
-#📘 1. Descrição Geral do Sistema
+O **Sistema Acadêmico** é um projeto desenvolvido em **Java com Spring Boot**, que permite o gerenciamento de **usuários, turmas e avaliações**.  
+Ele pode ser executado de **duas formas**:  
+- **Modo Mock (Terminal)** — simulado, sem necessidade de banco de dados  
+- **Modo Real (REST)** — com conexão a um banco de dados relacional  
 
-O Sistema Acadêmico foi desenvolvido com o objetivo de gerenciar informações de usuários, turmas, avaliações e notas em um ambiente acadêmico.
-O sistema possui duas formas de execução, permitindo ao desenvolvedor trabalhar tanto sem banco de dados (modo mock, via terminal) quanto com banco de dados real (modo REST com Spring Boot).
+---
 
-Essa flexibilidade facilita o desenvolvimento e os testes iniciais, permitindo simular todas as operações antes de configurar a persistência real.
+## 🚀 Funcionalidades
 
-#⚙️ 2. Estrutura do Projeto
-com.sistemaacademico/
-│
-├── controller/
-│   └── real/
-│       ├── AvaliacaoController.java
-│       ├── UsuarioController.java
-│       └── (demais controllers reais)
-│
-├── repository/
-│   ├── AvaliacaoRepository.java
-│   ├── UsuarioRepository.java
-│   └── (demais repositories JPA)
-│
-├── mock/
-│   ├── MockApp.java                      → Aplicação executável via terminal
-│   ├── AvaliacaoMockRepository.java      → Simula o banco de dados em memória
-│   ├── UsuarioMockRepository.java        → Simula dados de usuários
-│   └── util/
-│       └── ConsoleUtils.java             → Utilitário de leitura no console
-│
-├── model/
-│   ├── Usuario.java
-│   ├── Avaliacao.java
-│   ├── Turma.java
-│   ├── Nota.java
-│   └── (demais entidades)
-│
-└── SistemaAcademicoApplication.java      → Classe principal do Spring Boot
+- Cadastro e login de usuários (aluno, docente e admin)  
+- Criação e listagem de turmas e avaliações  
+- Login/logout de usuários  
+- Execução em modo terminal (para testes rápidos)  
+- Execução via API REST (com banco configurado)
 
-#🧩 3. Funcionalidades Principais
-#👤 Usuários
+---
 
-Cadastramento de usuários com nome, e-mail, senha e tipo (aluno, docente ou admin).
+## ⚙️ Como Executar
 
-Login e logout simulados no console.
+### 🖥️ Modo Terminal (Mock)
 
-Listagem de todos os usuários cadastrados.
+Este modo roda o sistema direto no console, **sem banco de dados**.
 
-#📝 Avaliações
+**Passos:**
+1. Abra o projeto na IDE de sua preferência.  
+2. Localize o arquivo `MockApp.java`.  
+3. Execute a classe (`Run MockApp.main()`).  
+4. O menu aparecerá no terminal, permitindo:  
+   - Cadastrar usuários  
+   - Fazer login e logout  
+   - Gerenciar e listar avaliações  
 
-Cadastro de avaliações com nome e peso.
+---
 
-Listagem de todas as avaliações cadastradas.
+### 🌐 Modo Real (com Banco de Dados)
 
-Exclusão de avaliações específicas por ID.
+Este modo roda a aplicação com **Spring Boot e banco de dados**.
 
-#🔒 Controle de Acesso (modo mock)
+**Passos:**
+1. Configure o `application.properties` com as credenciais do seu banco (pode usar H2, MySQL, etc.).  
+2. Execute a classe principal `SistemaAcademicoApplication.java`.  
+3. A aplicação iniciará em:  http://localhost:8080
+4. Você poderá acessar os endpoints REST da aplicação, como:
+- `/alunos`
+- `/docentes`
+- `/avaliacoes`
 
-Apenas usuários logados podem acessar o menu de avaliações.
+---
 
-O login é feito com e-mail e senha (sem criptografia no modo mock).
+## 🧠 Tecnologias Utilizadas
 
-#🧮 4. Modo 1 – Execução Mock (Terminal)
+- Java 17+  
+- Spring Boot  
+- Spring Data JPA  
+- H2 / MySQL  
+- Lombok  
+- REST API  
 
-O modo mock é executado totalmente em memória, sem necessidade de banco de dados ou servidor.
-Ideal para testes rápidos, demonstrações e simulações de fluxo.
+---
 
-#▶️ Como executar no IntelliJ:
+## ✨ Observações
 
-Abra o projeto no IntelliJ.
+- O **modo mock** é independente do banco e ideal para testes locais.  
+- O **modo real** requer configuração de banco de dados.  
+- Ambos os modos podem coexistir no mesmo projeto sem conflitos.  
 
-Vá até a classe:
-
-com.sistemaacademico.mock.MockApp
-
-Clique com o botão direito e escolha Run 'MockApp.main()'.
-
-O menu aparecerá no console do IntelliJ, permitindo interação digitando opções numéricas.
-
-#🌐 5. Modo 2 – Execução Real (Spring Boot + REST)
-
-O modo real utiliza o Spring Boot, JPA e Hibernate para persistência em banco de dados.
-Cada entidade possui um Repository e Controller REST completo.
-
-▶️ Como executar:
-
-Vá até a classe:
-
-com.sistemaacademico.SistemaAcademicoApplication
-
-
-Clique com o botão direito e selecione Run 'SistemaAcademicoApplication.main()'.
-
-O servidor iniciará em:
-
-http://localhost:8080
-
-🧪 Como testar (exemplos de endpoints)
-
-Use ferramentas como Postman, Insomnia ou curl:
-
-Criar usuário:
-POST http://localhost:8080/usuarios
-{
-  "nome": "Maria",
-  "email": "maria@email.com",
-  "senhaHash": "1234",
-  "tipo": "docente"
-}
-
-Listar usuários:
-GET http://localhost:8080/usuarios
-
-Atualizar usuário:
-PUT http://localhost:8080/usuarios/1
-{
-  "nome": "Maria Souza",
-  "email": "maria@email.com",
-  "senhaHash": "4321",
-  "tipo": "admin"
-}
-
-Deletar usuário:
-DELETE http://localhost:8080/usuarios/1
-
-🔄 6. Alternando entre os modos
-
-# Modo Mock (sem banco):
-
-Executar MockApp.java
-
-Todos os dados são armazenados apenas em memória.
-
-Ideal para testar fluxo de menus e lógica sem dependências externas.
-
-# Modo Real (com banco):
-
-Executar SistemaAcademicoApplication.java
-
-Usa os repositórios JpaRepository e os controllers REST.
-
-Requer configuração de banco no application.properties (por exemplo, H2 ou MySQL).
-
-Os dois modos são independentes e podem coexistir no mesmo projeto sem conflito.
-
-🧠 7. Conclusão
-
-O projeto foi estruturado para permitir tanto desenvolvimento rápido e testes locais (modo mock) quanto execução completa em ambiente web (modo REST).
-Essa separação favorece:
-
-Evolução gradual do sistema.
-
-Manutenção facilitada, com camadas bem divididas entre model, repository e controller.
+---
